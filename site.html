@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERITAS GALLERY — Human Soul vs. Synthetic Precision</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* ==========================================================================
+           DESIGN SYSTEM & COLOR PALETTE
+           ========================================================================== */
+        :root {
+            --bg-linen: #FDFBF7;
+            --surface-cream: #F7F3EC;
+            --surface-card: #FFFFFF;
+            --accent-terracotta: #C86D51;
+            --accent-ocher: #D4A373;
+            --accent-gold: #B8860B;
+            --text-espresso: #2B2523;
+            --text-muted: #766E65;
+            --border-subtle: rgba(43, 37, 35, 0.12);
+            --border-hover: rgba(200, 109, 81, 0.4);
+            --shadow-soft: 0 10px 30px rgba(43, 37, 35, 0.05);
+            --shadow-elevated: 0 20px 40px rgba(43, 37, 35, 0.08);
+            
+            --font-cinzel: 'Cinzel', serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           BASE & RESET
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-linen);
+            color: var(--text-espresso);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Typography Helper Classes */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            color: var(--text-espresso);
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        /* Layout Wrappers */
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        /* ==========================================================================
+           HEADER & NAVIGATION
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(253, 251, 247, 0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .brand-logo {
+            font-family: var(--font-cinzel);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--text-espresso);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-logo span {
+            color: var(--accent-terracotta);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            color: var(--text-muted);
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background-color: var(--accent-terracotta);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-espresso);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-cinzel);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--accent-terracotta);
+            margin-bottom: 1.25rem;
+            display: inline-block;
+        }
+
+        .hero-title {
+            font-size: 3.25rem;
+            line-height: 1.2;
+            max-width: 900px;
+            margin: 0 auto 1.5rem auto;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            max-width: 650px;
+            margin: 0 auto;
+            color: var(--text-muted);
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--accent-terracotta);
+            margin: 3rem auto 0 auto;
+            opacity: 0.6;
+        }
+
+        /* ==========================================================================
+           GAME SECTION & CARDS
+           ========================================================================== */
+        .game-section {
+            background-color: var(--surface-cream);
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .round-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .round-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .round-badge-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-cinzel);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-terracotta);
+            background: var(--surface-cream);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 1.5rem;
+        }
+
+        .round-title-group {
+            margin-bottom: 2.5rem;
+        }
+
+        .round-title-group h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .round-title-group .artist-meta {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Image Frame Grid */
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .artwork-frame {
+            position: relative;
+            background: var(--surface-cream);
+            padding: 1.25rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            overflow: hidden;
+        }
+
+        .artwork-frame:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .artwork-frame.selected {
+            border-color: var(--text-espresso);
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+            background-color: #EFECE6;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: contrast(0.98) brightness(0.98);
+        }
+
+        .artwork-frame:hover .image-wrapper img {
+            transform: scale(1.03);
+        }
+
+        .frame-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--border-subtle);
+        }
+
+        .option-tag {
+            font-family: var(--font-cinzel);
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--text-espresso);
+        }
+
+        .click-prompt {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+
+        .artwork-frame:hover .click-prompt {
+            color: var(--accent-terracotta);
+        }
+
+        /* Overlay Reveal Badges */
+        .reveal-badge {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            padding: 0.5rem 1.2rem;
+            font-family: var(--font-cinzel);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition-smooth);
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .reveal-badge.original {
+            background-color: var(--text-espresso);
+            color: #FFF;
+            border: 1px solid var(--accent-ocher);
+        }
+
+        .reveal-badge.ai {
+            background-color: rgba(253, 251, 247, 0.95);
+            color: var(--accent-terracotta);
+            border: 1px solid var(--accent-terracotta);
+        }
+
+        .round-card.revealed .reveal-badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .round-card.revealed .artwork-frame {
+            cursor: default;
+        }
+
+        .round-card.revealed .artwork-frame:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Alert Banner */
+        .game-feedback {
+            display: none;
+            padding: 1.25rem 1.75rem;
+            border-radius: 2px;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .game-feedback.correct {
+            display: flex;
+            background: rgba(212, 163, 115, 0.15);
+            border: 1px solid var(--accent-ocher);
+            color: var(--text-espresso);
+        }
+
+        .game-feedback.incorrect {
+            display: flex;
+            background: rgba(200, 109, 81, 0.12);
+            border: 1px solid var(--accent-terracotta);
+            color: var(--text-espresso);
+        }
+
+        .feedback-icon {
+            font-size: 1.25rem;
+        }
+
+        /* ==========================================================================
+           CURATORIAL DEEP-DIVE & MAP SECTION
+           ========================================================================== */
+        .deep-dive-container {
+            display: none;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 2.5rem;
+            margin-top: 1rem;
+            animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .round-card.revealed .deep-dive-container {
+            display: block;
+        }
+
+        .deep-dive-header {
+            font-family: var(--font-cinzel);
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-terracotta);
+            margin-bottom: 1.5rem;
+        }
+
+        .deep-dive-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+        }
+
+        .meta-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .meta-item label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .meta-item span {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-espresso);
+        }
+
+        .curatorial-narrative {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-frame-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 250px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            overflow: hidden;
+            background: var(--surface-cream);
+        }
+
+        .map-frame-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(0.2) opacity(0.9);
+            transition: var(--transition-smooth);
+        }
+
+        .map-frame-wrapper:hover iframe {
+            filter: grayscale(0) opacity(1);
+        }
+
+        /* ==========================================================================
+           BUG REPORT & FEEDBACK FOOTER SECTION
+           ========================================================================== */
+        .feedback-section {
+            background-color: var(--bg-linen);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .feedback-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            padding: 3.5rem;
+            box-shadow: var(--shadow-soft);
+            border-radius: 4px;
+        }
+
+        .feedback-card h3 {
+            font-size: 1.85rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-card p {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-espresso);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: var(--bg-linen);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--text-espresso);
+            transition: var(--transition-smooth);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-terracotta);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(200, 109, 81, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--text-espresso);
+            color: #FFFFFF;
+            border: none;
+            font-family: var(--font-cinzel);
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-terracotta);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--text-espresso);
+            color: #FFF;
+            padding: 1rem 1.75rem;
+            border-left: 4px solid var(--accent-ocher);
+            border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition-smooth);
+            pointer-events: none;
+        }
+
+        .toast-notification.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Footer Copyright */
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: var(--surface-cream);
+        }
+
+        /* ==========================================================================
+           ANIMATIONS & RESPONSIVE DESIGN
+           ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .artwork-grid {
+                grid-template-columns: 1fr;
+            }
+            .deep-dive-grid {
+                grid-template-columns: 1fr;
+            }
+            .image-wrapper {
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                gap: 1.25rem;
+            }
+            .nav-links a {
+                font-size: 0.75rem;
+            }
+            .hero-title {
+                font-size: 1.85rem;
+            }
+            .round-card {
+                padding: 1.5rem;
+            }
+            .meta-list {
+                grid-template-columns: 1fr;
+            }
+            .feedback-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="brand-logo">
+                VERITAS <span>GALLERY</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#game">Curatorial Test</a></li>
+                    <li><a href="#gallery-info">Gallery Info</a></li>
+                    <li><a href="#bug-report">Feedback</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <span class="hero-subtitle">Interactive Curatorial Exhibition</span>
+                <h1 class="hero-title">"Can you distinguish human soul from synthetic precision?"</h1>
+                <p class="hero-description">
+                    Test your discerning eye against original historical masterworks and advanced generative AI synthesis. Examine brushwork, light, and anatomical emotion.
+                </p>
+                <div class="hero-divider"></div>
+            </div>
+        </section>
+
+        <!-- Interactive "Real vs. AI" Game -->
+        <section id="game" class="game-section">
+            <div class="container">
+                <div class="section-header">
+                    2. The Discerning Eye Challenge
+                    <p>Select the artwork you believe to be the genuine original created by human hands.</p>
+                </div>
+
+                <!-- ROUND 1 CARD -->
+                <div class="round-card" id="round-1">
+                    <span class="round-badge-indicator">Round 01 / 02</span>
+                    
+                    <div class="round-title-group">
+                        <h3>Martyrdom of Saint Theodore</h3>
+                        <div class="artist-meta">Camillo Procaccini — 1595</div>
+                    </div>
+
+                    <!-- Dynamic Feedback Banner -->
+                    <div class="game-feedback" id="feedback-round-1"></div>
+
+                    <!-- Side-by-Side Artwork Grid -->
+                    <div class="artwork-grid">
+                        <!-- Option A (Original) -->
+                        <div class="artwork-frame" onclick="makeSelection(1, 'A', true)">
+                            <div class="reveal-badge original">Original Masterwork</div>
+                            <div class="image-wrapper">
+                                <img src="SANTEODORO_REAL.png" alt="Option A - Martyrdom of Saint Theodore">
+                            </div>
+                            <div class="frame-label">
+                                <span class="option-tag">Option A</span>
+                                <span class="click-prompt">Select Artwork &rarr;</span>
+                            </div>
+                        </div>
+
+                        <!-- Option B (AI Generated) -->
+                        <div class="artwork-frame" onclick="makeSelection(1, 'B', false)">
+                            <div class="reveal-badge ai">AI Synthesis</div>
+                            <div class="image-wrapper">
+                                <img src="SANTEODORO_GEMINI.png" alt="Option B - AI Synthesis Variant">
+                            </div>
+                            <div class="frame-label">
+                                <span class="option-tag">Option B</span>
+                                <span class="click-prompt">Select Artwork &rarr;</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deep-Dive Section (Revealed post-play) -->
+                    <div class="deep-dive-container" id="deep-dive-1">
+                        <div class="deep-dive-header">&mdash; Curatorial Notes & Location</div>
+                        
+                        <div class="deep-dive-grid">
+                            <div class="deep-dive-info">
+                                <ul class="meta-list">
+                                    <li class="meta-item">
+                                        <label>Artwork</label>
+                                        <span>Martyrdom of St. Theodore</span>
+                                    </li>
+                                    <li class="meta-item">
+                                        <label>Master Artist</label>
+                                        <span>Camillo Procaccini</span>
+                                    </li>
+                                    <li class="meta-item">
+                                        <label>Created</label>
+                                        <span>c. 1595</span>
+                                    </li>
+                                </ul>
+                                <p class="curatorial-narrative">
+                                    Painted during the height of Milanese Counter-Reformation Mannerism, Camillo Procaccini's <em>Martyrdom of Saint Theodore</em> embodies intense emotional turmoil and dramatic chiaroscuro. The piece captures Saint Theodore's unflinching spiritual strength amidst physical suffering, employing complex diagonal arrangements, expressive muscle tension, and a rich, somber palette that highlights divine grace amid human tragedy.
+                                </p>
+                            </div>
+
+                            <!-- Interactive Map Embed -->
+                            <div class="map-frame-wrapper">
+                                <iframe 
+                                    title="Church of Santo Stefano Maggiore Location Map"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.156!2d9.1952!3d45.4611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786c6aecfdf153d%3A0x8673a55e2d633350!2sChiesa%20di%20Santo%20Stefano%20Maggiore!5e0!3m2!1sen!2sit!4v1700000000000" 
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROUND 2 CARD -->
+                <div class="round-card" id="round-2">
+                    <span class="round-badge-indicator">Round 02 / 02</span>
+                    
+                    <div class="round-title-group">
+                        <h3>The Elevation of the Cross</h3>
+                        <div class="artist-meta">Peter Paul Rubens — 1610–1611</div>
+                    </div>
+
+                    <!-- Dynamic Feedback Banner -->
+                    <div class="game-feedback" id="feedback-round-2"></div>
+
+                    <!-- Side-by-Side Artwork Grid -->
+                    <div class="artwork-grid">
+                        <!-- Option A (AI Generated) -->
+                        <div class="artwork-frame" onclick="makeSelection(2, 'A', false)">
+                            <div class="reveal-badge ai">AI Synthesis</div>
+                            <div class="image-wrapper">
+                                <img src="CROCE_GEMINI.png" alt="Option A - AI Synthesis Variant">
+                            </div>
+                            <div class="frame-label">
+                                <span class="option-tag">Option A</span>
+                                <span class="click-prompt">Select Artwork &rarr;</span>
+                            </div>
+                        </div>
+
+                        <!-- Option B (Original) -->
+                        <div class="artwork-frame" onclick="makeSelection(2, 'B', true)">
+                            <div class="reveal-badge original">Original Masterwork</div>
+                            <div class="image-wrapper">
+                                <img src="CROCE_REAL.png" alt="Option B - The Elevation of the Cross">
+                            </div>
+                            <div class="frame-label">
+                                <span class="option-tag">Option B</span>
+                                <span class="click-prompt">Select Artwork &rarr;</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deep-Dive Section (Revealed post-play) -->
+                    <div class="deep-dive-container" id="deep-dive-2">
+                        <div class="deep-dive-header">&mdash; Curatorial Notes & Location</div>
+                        
+                        <div class="deep-dive-grid">
+                            <div class="deep-dive-info">
+                                <ul class="meta-list">
+                                    <li class="meta-item">
+                                        <label>Artwork</label>
+                                        <span>The Elevation of the Cross</span>
+                                    </li>
+                                    <li class="meta-item">
+                                        <label>Master Artist</label>
+                                        <span>Peter Paul Rubens</span>
+                                    </li>
+                                    <li class="meta-item">
+                                        <label>Created</label>
+                                        <span>1610–1611</span>
+                                    </li>
+                                </ul>
+                                <p class="curatorial-narrative">
+                                    Commissioned following Rubens’s formative journey through Italy, <em>The Elevation of the Cross</em> stands as a definitive monumental triptych of Flemish Baroque art. Fusing Michelangelo's heroic muscular dynamic with Caravaggio's dramatic chiaroscuro lighting, Rubens paints a visceral, kinetic scene of physical exertion and divine surrender that reshaped European religious painting.
+                                </p>
+                            </div>
+
+                            <!-- Interactive Map Embed -->
+                            <div class="map-frame-wrapper">
+                                <iframe 
+                                    title="Cathedral of Our Lady Antwerp Location Map"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2500.2!2d4.4005!3d51.2203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f68b3d6dfb8d%3A0x6b4fb712c4992bb3!2sCathedral%20of%20Our%20Lady!5e0!3m2!1sen!2sbe!4v1700000000000" 
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Gallery Info Section -->
+        <section id="gallery-info" style="background-color: var(--bg-linen);">
+            <div class="container" style="max-width: 800px; text-align: center;">
+                <span class="hero-subtitle">Curatorial Philosophy</span>
+                <h2 style="font-size: 2.25rem; margin-bottom: 1.5rem;">Authenticity in the Algorithmic Age</h2>
+                <p style="font-size: 1.05rem; line-height: 1.9; color: var(--text-muted);">
+                    Veritas Gallery operates at the intersection of classical preservation and modern generative technology. Our mission is to foster critical visual literacy by inviting patrons to examine the subtle nuances—imperfect brushwork, organic spatial rhythm, and narrative intent—that distinguish human expression from synthetic calculations.
+                </p>
+            </div>
+        </section>
+
+        <!-- Bug Report & Feedback Section -->
+        <section id="bug-report" class="feedback-section">
+            <div class="container">
+                <div class="feedback-card">
+                    <h3>Curatorial Feedback & Bug Report</h3>
+                    <p>Encountered a visual discrepancy, game logic glitch, or historical error? Notify our technical curators.</p>
+
+                    <form id="bugReportForm" action="https://formsubmit.co/labatia22@gmail.com" method="POST">
+                        <input type="hidden" name="_subject" value="Nuovo Feedback da Veritas Gallery!">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="Nome" class="form-control" placeholder="e.g., Eleanor Vance" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailAddress">Email Address</label>
+                            <input type="email" id="emailAddress" name="Email" class="form-control" placeholder="e.g., eleanor@veritasgallery.art" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="issueCategory">Category</label>
+                            <select id="issueCategory" name="Categoria" class="form-control" required>
+                                <option value="" disabled selected>Select an issue category...</option>
+                                <option value="Game Logic">Game Logic / Round State</option>
+                                <option value="Visual Glitch">Visual / Responsiveness Glitch</option>
+                                <option value="Content Error">Historical / Content Error</option>
+                                <option value="Other">Other Query</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="messageBody">Detailed Message</label>
+                            <textarea id="messageBody" name="Messaggio" class="form-control" placeholder="Describe the behavior or observation..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Veritas Gallery. All rights reserved. Preserving human masterworks in a synthetic world.</p>
+        </div>
+    </footer>
+
+    <!-- Inline Toast Notification Element -->
+    <div id="toastNotification" class="toast-notification">
+        <span style="color: var(--accent-ocher); font-size: 1.2rem;">&#10003;</span>
+        <span id="toastMessage">Thank you for your feedback! Our curators will look into this issue.</span>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Track round states to prevent multiple clicks per round
+        const roundState = {
+            1: { played: false },
+            2: { played: false }
+        };
+
+        /**
+         * Triggers confetti explosion using canvas-confetti library
+         */
+        function triggerSlotMachineConfetti() {
+            if (typeof confetti === 'function') {
+                const count = 200;
+                const defaults = {
+                    origin: { y: 0.7 },
+                    colors: ['#C86D51', '#D4A373', '#2B2523', '#B8860B']
+                };
+
+                function fire(particleRatio, opts) {
+                    confetti(Object.assign({}, defaults, opts, {
+                        particleCount: Math.floor(count * particleRatio)
+                    }));
+                }
+
+                fire(0.25, { spread: 26, startVelocity: 55 });
+                fire(0.2, { spread: 60 });
+                fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+                fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+                fire(0.1, { spread: 120, startVelocity: 45 });
+            }
+        }
+
+        /**
+         * Game choice handler
+         * @param {number} round - Round number (1 or 2)
+         * @param {string} option - Option clicked ('A' or 'B')
+         * @param {boolean} isOriginal - Whether the clicked option is the original masterwork
+         */
+        function makeSelection(round, option, isOriginal) {
+            // Prevent multiple selections for the same round
+            if (roundState[round].played) return;
+            roundState[round].played = true;
+
+            const roundCard = document.getElementById(`round-${round}`);
+            const feedbackEl = document.getElementById(`feedback-round-${round}`);
+
+            // Mark card as revealed (triggers CSS overlays & deep dive section display)
+            roundCard.classList.add('revealed');
+
+            if (isOriginal) {
+                // Correct Choice
+                triggerSlotMachineConfetti();
+                feedbackEl.className = "game-feedback correct";
+                feedbackEl.innerHTML = `
+                    <span class="feedback-icon">&#10004;</span>
+                    <div>
+                        <strong>Correct! You spotted the genuine masterwork.</strong><br>
+                        <span style="font-size:0.85rem; color:var(--text-muted);">Notice the organic brush rhythm and depth of light characteristic of human mastery.</span>
+                    </div>
+                `;
+            } else {
+                // Incorrect Choice
+                feedbackEl.className = "game-feedback incorrect";
+                feedbackEl.innerHTML = `
+                    <span class="feedback-icon">&#10008;</span>
+                    <div>
+                        <strong>Incorrect. That was generated by AI. Try again!</strong><br>
+                        <span style="font-size:0.85rem; color:var(--text-muted);">The synthetic variant exhibits smoothed texture repetition typical of generative models.</span>
+                    </div>
+                `;
+            }
+
+            // Smoothly scroll to feedback banner if needed
+            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        /**
+         * Toast Notification display logic
+         * @param {string} message 
+         */
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            
+            toastMsg.textContent = message;
+            toast.classList.add('active');
+
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 4500);
+        }
+    </script>
+</body>
+</html>
